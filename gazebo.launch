@@ -1,0 +1,64 @@
+<launch>
+  <include
+    file="$(find gazebo_ros)/launch/empty_world.launch" />
+  <node
+    name="tf_footprint_base"
+    pkg="tf"
+    type="static_transform_publisher"
+    args="0 0 0 0 0 0 base_link base_footprint 40" />
+  <node
+    name="spawn_model"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find car_like)/urdf/car_like.urdf -urdf -model car_like"
+    output="screen" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+    <remap from="joint_states" to="gazebo/joint_states"/>
+  </node>
+
+  <node
+    name="fake_joint_calibration"
+    pkg="rostopic"
+    type="rostopic"
+    args="pub /calibrated std_msgs/Bool true" />
+
+  <node pkg="car_like" type="controlKeyboard.py"  name="keyboard_control">
+    <param name="~keyboard_config_file" value="$(find car_like)/config/keyboard_config.yaml"/>
+  </node>
+  <node pkg="car_like" type="controlArmKeyBoard.py" name="arm_keyboard_control" output="screen"/>
+  </launch>
+<!-- <launch>
+  <include
+    file="$(find gazebo_ros)/launch/empty_world.launch" />
+  <node
+    name="tf_footprint_base"
+    pkg="tf"
+    type="static_transform_publisher"
+    args="0 0 0 0 0 0 base_link base_footprint 40" />
+  <node
+    name="spawn_model"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find car_like)/urdf/car_like.urdf -urdf -model car_like"
+    output="screen" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+    <remap from="joint_states" to="gazebo/joint_states"/>
+  </node>
+
+  <node
+    name="fake_joint_calibration"
+    pkg="rostopic"
+    type="rostopic"
+    args="pub /calibrated std_msgs/Bool true" />
+
+  <node pkg="car_like" type="controlKeyboard.py"  name="keyboard_control">
+    <param name="~keyboard_config_file" value="$(find car_like)/config/keyboard_config.yaml"/>
+  </node>
+  <node pkg="car_like" type="controlArmKeyboard.py" name="arm_keyboard_control">
+    <param name="~arm_keyboard_config_file" value="$(find car_like)/config/arm_keyboard_config.yaml"/>
+  </node>
+
+  
+</launch> -->
