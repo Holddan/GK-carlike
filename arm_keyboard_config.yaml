@@ -1,0 +1,19 @@
+arm_bindings:
+  u: [0, 0.01]    # Tăng vị trí khớp basearm_Joint (prismatic, extend)
+  j: [0, -0.01]   # Giảm vị trí khớp basearm_Joint (prismatic, retract)
+  i: [1, 0.05]    # Tăng vị trí khớp arm2_Joint (revolute, rotate)
+  k: [1, -0.05]   # Giảm vị trí khớp arm2_Joint (revolute, rotate)
+arm_speed_prismatic: 0.01 # Tốc độ di chuyển cho khớp prismatic
+arm_speed_revolute: 0.05  # Tốc độ di chuyển cho khớp revolute
+car_like:
+  # Configuration for the base arm joint
+  basearm_Joint_position_controller:
+    type: position_controllers/JointPositionController
+    joint: basearm_Joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  # Configuration for the second arm joint
+  arm2_Joint_position_controller:
+    type: position_controllers/JointPositionController
+    joint: arm2_Joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
