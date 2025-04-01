@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="car_like" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="laser_visual"  default="false"/>
+  <xacro:arg name="camera_visual" default="false"/>
+  <xacro:arg name="imu_visual"    default="false"/>
+  <link name="base_footprint"/>
+
+  <joint name="base_joint"  type="fixed">
+      <parent link="base_footprint"/>
+      <child link="base_link"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.013"/>
+  </joint>
+
+  <link name="base_link">
+      <inertial>
+        <origin
+          xyz="0.00619123936838659 0 0.0101366975653752"
+          rpy="0 0 0" />
+        <mass
+          value="0.191731447660487" />
+        <inertia
+          ixx="8.86842273083237E-05"
+          ixy="4.49596944218136E-20"
+          ixz="-9.21162917315639E-06"
+          iyy="0.00037437881618141"
+          iyz="-3.71922828806266E-21"
+          izz="0.000438655138890151" />
+      </inertial>
+      <visual>
+        <origin    xyz="0 0 0"  rpy="0 0 0" />
+        <geometry>
+          <mesh    filename="package://car_like/meshes/base_link.STL" />
+        </geometry>
+        <material  name="">
+          <color   rgba="0.666666666666667 0.698039215686274 0.768627450980392 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin   xyz="0 0 0"   rpy="0 0 0" />
+        <geometry>
+          <mesh    filename="package://car_like/meshes/base_link.STL" />
+        </geometry>
+      </collision>
+  </link>
+
+    <!-- front_left_wheel-->
+  <link name="flwel_Link">
+      <inertial>
+        <origin
+          xyz="2.26599991815721E-05 -3.08364445089637E-14 -0.00562970727418075"
+          rpy="0 0 0" />
+        <mass value="0.0185983201827684" />
+        <inertia
+          ixx="4.24726916371562E-06"
+          ixy="-5.54959294947761E-23"
+          ixz="-1.3299979929907E-08"
+          iyy="4.24721563028908E-06"
+          iyz="1.96713300137727E-21"
+          izz="7.55149629333207E-06" />
+      </inertial>
+      <visual>
+        <origin   xyz="0 0 0"    rpy="0 0 0" />
+        <geometry>
+          <mesh   filename="package://car_like/meshes/flwel_Link.STL" />
+        </geometry>
+        <material name="">
+          <color  rgba="0.00784313725490196 0.23921568627451 0.823529411764706 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin   xyz="0 0 0"    rpy="0 0 0" />
+        <geometry>
+          <mesh   filename="package://car_like/meshes/flwel_Link.STL" />
+        </geometry>
+      </collision>
+  </link>
+
+  <joint      name="flwel_Joint"    type="continuous">
+      <origin   xyz="-0.077553 -0.07308 0.011"   rpy="1.5708 0 0" />
+      <parent  link="base_link" />
+      <child   link="flwel_Link" />
+      <axis     xyz="-0.0025837 0 1" />
+      <!-- <limit effort="100" velocity="100"/> -->
+      <joint_properties damping="0.1" friction="0.2"/>
+  </joint>
+
+  <transmission name="flwel_trans" type="SimpleTransmission"> 
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="flwel_Joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="flwel_motor">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+  </transmission>
+
+    <!--front_right_wheel-->
+  <link name="frwel_Link">
+      <inertial>
+        <origin     xyz="-1.45458138573404E-05 -2.96707103331073E-14 0.00562973408675563"
+          rpy="0 0 0" />
+        <mass       value="0.0185983201827684" />
+        <inertia
+          ixx="4.24723768906084E-06"
+          ixy="8.5457800998966E-24"
+          ixz="-8.53750942878409E-09"
+          iyy="4.24721563028908E-06"
+          iyz="2.8250876480704E-21"
+          izz="7.55152776798686E-06" />
+      </inertial>
+      <visual>
+        <origin      xyz="0 0 0"     rpy="0 0 0" />
+        <geometry>
+          <mesh   filename="package://car_like/meshes/frwel_Link.STL" />
+        </geometry>
+        <material
+          name="">
+          <color     rgba="0.00784313725490196 0.23921568627451 0.823529411764706 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin     xyz="0 0 0"     rpy="0 0 0" />
+        <geometry>
+          <mesh   filename="package://car_like/meshes/frwel_Link.STL" />
+        </geometry>
+      </collision>
+  </link>
+
+  <joint  name="frwek_Joint"   type="continuous">
+      <origin
+        xyz="-0.077466 0.07308 0.011"
+        rpy="1.5708 0 0" />
+      <parent link="base_link" />
+      <child link="frwel_Link" />
+      <axis   xyz="-0.0025837 0 1" />
+      <!-- <limit effort="100" velocity="100"/> -->
+      <joint_properties damping="0.1" friction="0.2"/>
+  </joint>
+
+  <transmission name="frwel_trans" type="SimpleTransmission"> 
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="frwek_Joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="frwel_motor">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+  </transmission>
+
+  <!--back_left_wheel-->
+  <link   name="blwel_Link">
+      <inertial>
+        <origin
+          xyz="0 1.38777878078145E-17 -0.00562975287783091"
+          rpy="0 0 0" />
+        <mass      value="0.0185983201827684" />
+        <inertia
+          ixx="4.24721563028908E-06"
+          ixy="-3.27110501841234E-23"
+          ixz="6.06555647379602E-22"
+          iyy="4.24721563028908E-06"
+          iyz="-4.41097282675906E-23"
+          izz="7.55154982675861E-06" />
+      </inertial>
+      <visual>
+        <origin   xyz="0 0 0"     rpy="0 0 0" />
+        <geometry>
+          <mesh   filename="package://car_like/meshes/blwel_Link.STL" />
+        </geometry>
+        <material    name="">
+          <color
+            rgba="0.00784313725490196 0.23921568627451 0.823529411764706 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin      xyz="0 0 0"    rpy="0 0 0" />
+        <geometry>
+          <mesh     filename="package://car_like/meshes/blwel_Link.STL" />
+        </geometry>
+      </collision>
+  </link>
+
+  <joint   name="blwel_Joint"   type="continuous">
+      <origin
+        xyz="0.0775 -0.0725 0.011"
+        rpy="1.5708 0 0" />
+      <parent link="base_link" />
+      <child link="blwel_Link" />
+      <axis   xyz="0 0 1" />
+      <!-- <limit effort="100" velocity="100"/> -->
+      <joint_properties damping="0.1" friction="0.2"/>
+  </joint>
+
+  <transmission name="blwel_trans" type="SimpleTransmission"> 
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="blwel_Joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="blwel_motor">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+  </transmission>
+
+  <!--back_right_wheel-->
+  <link  name="brwel_Link">
+      <inertial>
+        <origin     xyz="0 0 0.00562975287783093"     rpy="0 0 0" />
+        <mass       value="0.0185983201827684" />
+        <inertia
+          ixx="4.24721563028908E-06"
+          ixy="1.96342567924623E-22"
+          ixz="-2.77844166863223E-22"
+          iyy="4.24721563028908E-06"
+          iyz="1.55027500149741E-22"
+          izz="7.55154982675861E-06" />
+      </inertial>
+      <visual>
+        <origin     xyz="0 0 0"        rpy="0 0 0" />
+        <geometry>
+          <mesh     filename="package://car_like/meshes/brwel_Link.STL" />
+        </geometry>
+        <material
+          name="">
+          <color    rgba="0.00784313725490196 0.23921568627451 0.823529411764706 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin     xyz="0 0 0"       rpy="0 0 0" />
+        <geometry>
+          <mesh    filename="package://car_like/meshes/brwel_Link.STL" />
+        </geometry>
+      </collision>
+  </link>
+
+  <joint  name="brwel_Joint"    type="continuous">
+      <origin
+        xyz="0.0775 0.0725 0.011"
+        rpy="1.5708 0 0" />
+      <parent link="base_link" />
+      <child link="brwel_Link" />
+      <axis  xyz="0 0 1" />
+      <!-- <limit effort="100" velocity="100"/> -->
+      <joint_properties damping="0.1" friction="0.2"/>
+  </joint>
+  <transmission name="brwel_trans" type="SimpleTransmission"> 
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="brwel_Joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="brwel_motor">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+  </transmission>
+
+    <!--base_arm-->
+  <link name="basearm_Link">
+      <inertial>
+        <origin
+          xyz="1.38777878078145E-17 6.93889390390723E-18 0.00676852558166408"
+          rpy="0 0 0" />
+        <mass  value="0.0114691409808859" />
+        <inertia
+          ixx="1.67973359226842E-06"
+          ixy="-4.3917464315464E-23"
+          ixz="-1.00210689449712E-22"
+          iyy="1.5950928493955E-06"
+          iyz="4.23450777955923E-22"
+          izz="7.90432499871156E-07" />
+      </inertial>
+      <visual>
+        <origin  xyz="0 0 0"  rpy="0 0 0" />
+        <geometry>
+          <mesh  filename="package://car_like/meshes/basearm_Link.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.752941176470588 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin   xyz="0 0 0"   rpy="0 0 0" />
+        <geometry>
+          <mesh  filename="package://car_like/meshes/basearm_Link.STL" />
+        </geometry>
+      </collision>
+  </link>
+
+  <joint  name="basearm_Joint"  type="prismatic">
+      <origin  xyz="-0.026186 0 0.033"   rpy="0 0 0" />
+      <parent link="base_link" />
+      <child link="basearm_Link" />
+      <axis   xyz="-1 0 0" />
+      <limit
+        lower="-0.058"
+        upper="0.008"
+        effort="2"
+        velocity="1.5" />
+      <joint_properties damping="0.2" friction="0.2"/>
+  </joint>
+
+  <transmission name="basearm_trans" type="SimpleTransmission"> 
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="basearm_Joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="basearm_motor">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+  </transmission>
+
+    <!--arm2-->
+  <link name="arm2_Link">
+      <inertial>
+        <origin
+          xyz="0.0332199387018449 -0.0058575714906158 -6.93889390390723E-18"
+          rpy="0 0 0" />
+        <mass  value="0.0113941695954877" />
+        <inertia
+          ixx="5.94966491224432E-07"
+          ixy="1.03554129925402E-06"
+          ixz="1.80585007179758E-23"
+          iyy="6.28521916445146E-06"
+          iyz="-3.62942347979689E-24"
+          izz="6.78713327064607E-06" />
+      </inertial>
+      <visual>
+        <origin  xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh  filename="package://car_like/meshes/arm2_Link.STL" />
+        </geometry>
+        <material   name="">
+          <color    rgba="0.752941176470588 1 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin    xyz="0 0 0"   rpy="0 0 0" />
+        <geometry>
+          <mesh    filename="package://car_like/meshes/arm2_Link.STL" />
+        </geometry>
+      </collision>
+  </link>
+
+  <joint  name="arm2_Joint"   type="revolute">
+      <origin  xyz="0 0 0.025"  rpy="1.5707963267949 0 3.14159265358979" />
+      <parent link="basearm_Link" />
+      <child  link="arm2_Link" />
+      <axis   xyz="0 0 1" />
+      <limit
+        lower="0"
+        upper="3.14"
+        effort="1"
+        velocity="1.5" />
+       <joint_properties damping="0.2" friction="0.2"/>
+  </joint>
+
+  <transmission name="arm2_trans" type="SimpleTransmission"> 
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="arm2_Joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="arm2_motor">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+  </transmission>
+
+    
+    <!--SENSOR-->
+    <!--camera-->
+  <link name="camera_Link">
+      <inertial>
+        <origin
+          xyz="0.000489255983060502 -5.68741878141654E-06 -0.00606896015513471"
+          rpy="0 0 0" />
+        <mass  value="0.0134886286030988" />
+        <inertia
+          ixx="2.2266638672519E-06"
+          ixy="5.58811135966137E-10"
+          ixz="-1.54038743776173E-09"
+          iyy="2.40926762771278E-07"
+          iyz="-1.50123406389848E-11"
+          izz="2.19547398424448E-06" />
+      </inertial>
+      <visual>
+        <origin  xyz="0 0 0"  rpy="0 0 0" />
+        <geometry>
+          <mesh  filename="package://car_like/meshes/camera_Link.STL" />
+        </geometry>
+        <material  name="Gazebo/Blue">
+          <color  rgba="0.898039215686275 0.917647058823529 0.929411764705882 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin  xyz="0 0 0"  rpy="0 0 0" />
+        <geometry>
+          <mesh  filename="package://car_like/meshes/camera_Link.STL" />
+        </geometry>
+      </collision>
+  </link>
+
+  <joint name="camera_Joint" type="fixed">
+      <origin  xyz="-0.085289 0.0010014 0.0083335"  rpy="0 0 3.1416" />
+      <parent  link="base_link" />
+      <child   link="camera_Link" />
+      <axis    xyz="0 0 0" />
+  </joint>
+
+  <!--lidar-->
+  <link name="Lidar_Link">
+      <inertial>
+        <origin
+          xyz="7.03670858786254E-05 0.0016713025014384 -0.00401336929925812"
+          rpy="0 0 0" />
+        <mass  value="0.00118322986452121" />
+        <inertia
+          ixx="2.22092229157394E-08"
+          ixy="1.60439472840979E-10"
+          ixz="5.75663615462201E-12"
+          iyy="1.56655569118064E-08"
+          iyz="2.83889914277966E-11"
+          izz="3.4855088035601E-08" />
+      </inertial>
+      <visual>
+        <origin   xyz="0 0 0"   rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://car_like/meshes/Lidar_Link.STL" />
+        </geometry>
+        <material name="">
+          <color  rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin   xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://car_like/meshes/Lidar_Link.STL" />
+        </geometry>
+      </collision>
+  </link>
+
+  <joint  name="Lidar_Joint" type="fixed">
+      <origin  xyz="0.0719635369859664 0.000333347265311985 0.040125" rpy="0 0 3.14159265358979" />
+      <parent link="base_link" />
+      <child  link="Lidar_Link" />
+      <axis   xyz="0 0 0" />
+  </joint>
+  <!--GPS-->
+  <link name="gps_link">
+    <inertial>
+      <mass value="0.001" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" iyy="1e-6" izz="1e-6" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="">
+          <color  rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="gps_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="gps_link"/>
+    <origin xyz="0.001 0 0.001" rpy="0 0 0"/>
+  </joint>
+
+  <!-- <gazebo reference="gps_link">
+    <gravity>true</gravity>
+    <sensor name="gps_sensor" type="gps">
+      <always_on>true</always_on>
+      <update_rate>10</update_rate>
+      <topic>gps/fix</topic>
+      <plugin filename="libgazebo_ros_gps.so" name="gps_plugin">
+        <ros>
+          <robotNamespace>/gps</robotNamespace>
+          <frameId>gps_link</frameId>
+          <remapping>~/out:=data</remapping>
+        </ros>
+      </plugin>
+    </sensor>
+    <material>gazebo/Red</material>
+  </gazebo> -->
+      
+    
+  <gazebo reference="base_link">
+      <material>gazebo/DarkGrey</material>
+  </gazebo>
+
+  <gazebo reference="flwel_Link">
+       
+      <mu1>0.1</mu1>
+      <mu2>0.1</mu2>
+      <kp>500000</kp>
+      <kd>10.0</kd>
+      <minDepth>0.1</minDepth>
+      <maxVel>0.1</maxVel>
+      <fdir1>1 0 0</fdir1>
+      <material>Gazebo/FlatBlack</material>
+  </gazebo>
+  <gazebo reference="frwel_Link">
+       
+      <mu1>0.1</mu1>
+      <mu2>0.1</mu2>
+      <kp>500000</kp>
+      <kd>10.0</kd>
+      <minDepth>0.1</minDepth>
+      <maxVel>0.1</maxVel>
+      <fdir1>1 0 0</fdir1>
+      <material>Gazebo/FlatBlack</material>
+  </gazebo>
+  <gazebo reference="blwel_Link">
+       
+      <mu1>0.1</mu1>
+      <mu2>0.1</mu2>
+      <kp>500000</kp>
+      <kd>10.0</kd>
+      <minDepth>0.1</minDepth>
+      <maxVel>0.1</maxVel>
+      <fdir1>1 0 0</fdir1>
+      <material>Gazebo/FlatBlack</material>
+  </gazebo>
+  <gazebo reference="brwel_Link">
+       
+      <mu1>0.1</mu1>
+      <mu2>0.1</mu2>
+      <kp>500000</kp>
+      <kd>10.0</kd>
+      <minDepth>0.1</minDepth>
+      <maxVel>0.1</maxVel>
+      <fdir1>1 0 0</fdir1>
+      <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <gazebo reference="basearm_Link">
+       
+      <mu1>0.3</mu1>
+      <mu2>0.3</mu2>
+      <kp>500000</kp>
+      <kd>10.0</kd>
+      <minDepth>0.1</minDepth>
+      <maxVel>0.1</maxVel>
+      <fdir1>1 0 0</fdir1>
+      <material>Gazebo/Yellow</material>
+  </gazebo>
+  <gazebo reference="arm2_Link">
+      <mu1>0.07</mu1>
+      <mu2>0.07</mu2>
+      <kp>500000</kp>
+      <kd>10.0</kd>
+      <minDepth>0.1</minDepth>
+      <maxVel>0.1</maxVel>
+      <fdir1>1 0 0</fdir1>
+      <material>Gazebo/Yellow</material>
+  </gazebo>
+  
+  
+  <gazebo reference="camera_Link">
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>rrbot/camera1</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_Link</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+   <!--
+  <gazebo>
+      <plugin name="car_like_controller" filename="libgazebo_ros_diff_drive.so">
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometrySource>world</odometrySource>
+        <publishOdomTF>true</publishOdomTF>
+        <robotBaseFrame>base_footprint</robotBaseFrame>
+        <publishWheelTF>false</publishWheelTF>
+        <publishTf>true</publishTf>
+        <publishWheelJointState>true</publishWheelJointState>
+        <legacyMode>false</legacyMode>
+        <updateRate>30</updateRate>
+        <leftFrontJoint>flwel_Joint</leftFrontJoint>
+        <rightFrontJoint>frwek_Joint</rightFrontJoint>
+        <leftRearJoint>blwel_Joint</leftRearJoint>
+        <rightRearJoint>brwel_Joint</rightRearJoint>
+        <wheelSeparation>0.287</wheelSeparation>
+        <wheelDiameter>0.066</wheelDiameter>
+        <wheelAcceleration>1</wheelAcceleration>
+        <wheelTorque>10</wheelTorque>
+        <rosDebugLevel>na</rosDebugLevel>
+      </plugin>
+  </gazebo>
+   -->   
+  <!--skid steering for robot -->
+    
+    <gazebo>
+      <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometrySource>world</odometrySource>
+        <updateRate>30.0</updateRate>
+        <robotNamespace>/</robotNamespace>
+        <leftFrontJoint>flwel_Joint</leftFrontJoint>
+        <rightFrontJoint>frwek_Joint</rightFrontJoint>
+        <leftRearJoint>blwel_Joint</leftRearJoint>
+        <rightRearJoint>brwel_Joint</rightRearJoint>
+        <wheelSeparation>0.12</wheelSeparation>
+        <wheelDiameter>0.0065</wheelDiameter>
+        <robotBaseFrame>base_link</robotBaseFrame>
+        <torque>50</torque>
+        <topicName>cmd_vel</topicName>
+        <broadcastTF>false</broadcastTF>
+        <covariance_x>0.0001</covariance_x>
+        <covariance_y>0.0001</covariance_y>
+        <covariance_yaw>0.01</covariance_yaw>
+      </plugin>
+    </gazebo>
+
+  <gazebo>
+    <plugin name="arm_trajectory_controller" filename="libgazebo_ros_joint_pose_trajectory.so">
+      <robotNamespace>/car_like</robotNamespace>
+      <topicName>/car_like/arm_trajectory_command</topicName>
+      <joints>
+        <joint>basearm_Joint</joint>
+        <joint>arm2_Joint</joint>
+      </joints>
+      <updateRate>100</updateRate>
+    </plugin>
+  </gazebo>
+
+    <gazebo reference="Lidar_Link">
+      <sensor type="ray" name="lidar_sensor">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <always_on>true</always_on>
+        <update_rate>30</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>720</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>6.2832</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>30.0</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+        <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
+          <topicName>/scan</topicName>
+          <frameName>Lidar_Link</frameName>
+        </plugin>
+      </sensor>
+      <material>Gazebo/Blue</material>
+    </gazebo> 
+  <!--gps-->  
+  <gazebo>
+    <plugin name="gazebo_ros_gps" filename="libhector_gazebo_ros_gps.so">
+      <updateRate>4.0</updateRate>
+      <bodyName>gps_link</bodyName>
+      <frameId>gps_link</frameId>
+      <topicName>/gps/fix</topicName>
+      <velocityTopicName>/gps/fix_velocity</velocityTopicName>
+      <referenceLatitude>-30.06022459407145675</referenceLatitude>
+      <referenceLongitude>-51.173913575780311191</referenceLongitude>
+      <referenceHeading>90</referenceHeading>
+      <referenceAltitude>10</referenceAltitude>
+      <offset>0 0 0</offset>
+      <drift>0.001 0.001 0.001</drift>
+      <gaussianNoise>0.05 0.05 0.05</gaussianNoise>
+      <velocityDrift>0.001 0.001 0.001</velocityDrift>
+      <velocityGaussianNoise>0.5 0.5 0.5</velocityGaussianNoise>
+    </plugin>
+    <material>gazebo/Red</material>
+  </gazebo>
+
+    
+
+    
+</robot>
